@@ -1,0 +1,86 @@
+name: KMM CI
+
+on:
+  push:
+    branches:
+      - mobile
+  pull_request:
+    branches:
+      - mobile
+
+jobs:
+  android-build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+  
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 30
+          build-tools-version: '30.0.3'
+          ndk-version: '21.4.7075529' 
+
+      - name: Accept SDK licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Build Android App
+        run: ./gradlew :androidApp:assembleDebug
+
+      - name: Run Android Unit Tests
+        run: ./gradlew :androidApp:testDebugUnitTest
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-apk
+          path: androidApp/build/outputs/apk/debug/androidApp-debug.apk
+
+
+  ios-build:
+    runs-on: macos-latest
+    steps:
+      - name: Cache CocoaPods
+        uses: actions/cache@v2
+        with:
+          path: iosApp/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('iosApp/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Generate Kotlin framework for iOS
+        run: ./gradlew :iosExport:generateDummyFramework
+
+      - name: Set up CocoaPods
+        run: pod install --project-directory=iosApp
+
+      - name: Build iOS App
+        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -configuration Debug build
+
+      - name: Run iOS Unit Tests
+        run: xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp -sdk iphonesimulator -configuration Debug test
+
+      - name: Upload iOS App
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-app
+          path: iosApp/build/Debug-iphonesimulator/iosApp.app

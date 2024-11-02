@@ -1,0 +1,16 @@
+PODS:
+  - iosExport (1.0)
+
+DEPENDENCIES:
+  - iosExport (from `../iosExport`)
+
+EXTERNAL SOURCES:
+  iosExport:
+    :path: "../iosExport"
+
+SPEC CHECKSUMS:
+  iosExport: de3979a6b9104476d5a4bbf17eca6e463d86c79b
+
+PODFILE CHECKSUM: dd72128e5b7dd1ccd9cbb90f22993af5a8158777
+
+COCOAPODS: 1.15.2
