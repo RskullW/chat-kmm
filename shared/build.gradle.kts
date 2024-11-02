@@ -77,7 +77,7 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            path = file("src/androidMain/kotlin/com.chatkmm/jni/Android.mk")
+            path = file("src/androidMain/kotlin/com/chatkmm/jni/Android.mk")
         }
     }
 

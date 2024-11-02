@@ -27,6 +27,11 @@ android {
 
 val featureModules = listOf(
     projects.androidApp.features.screen.splash,
+    projects.androidApp.features.screen.authorization,
+    projects.androidApp.features.screen.chat,
+    projects.androidApp.features.screen.menu,
+    projects.androidApp.features.screen.profile,
+    projects.androidApp.features.screen.registration,
 )
 
 val sharedModules = listOf(
