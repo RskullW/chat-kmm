@@ -15,6 +15,7 @@ sealed class Colors {
     abstract val red: Color
     abstract val gray: Color
     abstract val transparent: Color
+    abstract val blue: Color
 
     data class Light(
         private val context: Context,
@@ -28,6 +29,7 @@ sealed class Colors {
         override val red: Color = Color(MultiplatformResource.colors.red.getColor(context)),
         override val gray: Color = Color(MultiplatformResource.colors.gray.getColor(context)),
         override val transparent: Color = Color.Transparent,
+        override val blue: Color = Color(MultiplatformResource.colors.blue.getColor(context)),
     ): Colors()
 
     data class Dark(
@@ -42,5 +44,10 @@ sealed class Colors {
         override val red: Color = Color(MultiplatformResource.colors.red.getColor(context)),
         override val gray: Color = Color(MultiplatformResource.colors.gray.getColor(context)),
         override val transparent: Color = Color.Transparent,
+        override val blue: Color = Color(MultiplatformResource.colors.blue.getColor(context)),
     ): Colors()
+}
+
+fun Color.invert(): Color {
+    return Color(1f - red, 1f - green, 1f - blue, alpha)
 }

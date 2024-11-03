@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.sp
 @Immutable
 data class Typography(private val regular: FontFamily, private val bold: FontFamily) {
     val main: TitleTypography = TitleTypography(regular, bold)
+    val dialog: DialogTypography = DialogTypography(regular, bold)
 }
 
 @Immutable
@@ -19,6 +20,13 @@ data class TitleTypography(
     private val regular: FontFamily,
     private val bold: FontFamily,
 ) {
+    val splash: TextStyle = TextStyle(
+        fontSize = 32.sp,
+        lineHeight = 28.sp,
+        fontFamily = bold,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
     val title: TextStyle = TextStyle(
         fontSize = 22.sp,
         lineHeight = 28.sp,
@@ -55,6 +63,32 @@ data class TitleTypography(
     ).preciseLineHeight()
 }
 
+@Immutable
+data class DialogTypography(
+    private val regular: FontFamily,
+    private val bold: FontFamily,
+) {
+    val title: TextStyle = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 28.sp,
+        fontFamily = bold,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
+    val description: TextStyle = TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 28.sp,
+        fontFamily = regular,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
+    val buttonText: TextStyle = TextStyle(
+        fontSize = 18.sp,
+        lineHeight = 22.sp,
+        fontFamily = bold,
+        fontWeight = FontWeight.W400,
+    )
+}
 fun TextStyle.preciseLineHeight(): TextStyle = this.copy(
     platformStyle = PlatformTextStyle(
         includeFontPadding = false

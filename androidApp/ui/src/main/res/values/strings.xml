@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="appName">Шаблон</string>
+	<!-- Common-->
+	<string name="appName">Mango Chat</string>
+	<string name="close">Закрыть</string>
+	<string name="resume">Продолжить</string>
+	<string name="exit">Выйти из аккаунта</string>
+	<string name="authorization">Авторизация</string>
+	<string name="phoneNumber">Номер телефона</string>
+	<string name="code">Код</string>
+	<string name="name">Имя</string>
+	<string name="chat">Чат</string>
+	<string name="splashDescription">Чекай таски и переписывайся в одном приложении сразу ;-)</string>
+	<string name="errorTitle">Упс! Что-то пошло не так :(</string>
+	<string name="errorDescription">Произошла непредвиденная ошибка, пожалуйста, попробуйте ещё раз или свяжитесь с поддержкой для решения проблемы!</string>
 </resources>

@@ -4,7 +4,7 @@ COLORS_SOURCE_FILE="shared/resources/src/commonMain/moko-resources/colors/colors
 STRINGS_SOURCE_FILE="shared/resources/src/commonMain/moko-resources/base/strings.xml"
 
 COLORS_TARGET_FILE="androidApp/ui/src/main/res/values/colors.xml"
-COLORS_KT_FILE="androidApp/ui/src/main/java/com.chatkmm/ui/Colors.kt"
+COLORS_KT_FILE="androidApp/ui/src/main/java/com/chatkmm/ui/Colors.kt"
 COLORS_SWIFT_FILE="iosApp/iosApp/Resources/Colors.swift"
 
 BUILD_DIR="shared/resources/build"

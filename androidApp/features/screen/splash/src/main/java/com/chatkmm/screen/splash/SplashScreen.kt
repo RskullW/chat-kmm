@@ -22,16 +22,19 @@ fun SplashScreen() {
     val rootViewModel: RootViewModel = remember { getKoin().get() }
 
     val errorText by viewModel.errorText.state.collectAsState()
+    val newScreen by viewModel.newScreen.state.collectAsState()
 
-    LaunchedEffect(errorText) {
-        when {
-            errorText != null -> {
-
-            }
+    LaunchedEffect(newScreen) {
+        if (newScreen != null) {
+            rootViewModel.updateScreen(newScreen!!, emptyList(), true)
         }
     }
 
     MainTheme {
         SplashScreenContent()
+
+        if (!errorText.isNullOrEmpty()) {
+
+        }
     }
 }

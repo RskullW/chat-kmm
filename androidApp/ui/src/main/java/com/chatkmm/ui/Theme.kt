@@ -37,7 +37,7 @@ fun regular() = FontFamily( Font(resId = MultiplatformResource.fonts.roboto_regu
 fun bold() = FontFamily( Font(resId = MultiplatformResource.fonts.roboto_regular.fontResourceId) )
 
 fun localColors(context: Context) = compositionLocalOf <Colors> { Colors.Light(context) }
-fun localTypography() = compositionLocalOf { Typography(mainTextFont()) }
+fun localTypography() = compositionLocalOf { Typography(regular(), bold()) }
 
 object B {
     @Composable

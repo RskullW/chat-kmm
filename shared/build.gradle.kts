@@ -94,6 +94,7 @@ android {
 mokoNetwork {
     spec("serverApi") {
         inputSpec = file("src/api/openapi.yaml")
+        isInternal = false
     }
 }
 

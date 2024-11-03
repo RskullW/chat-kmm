@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.chatkmm.base.features.enum.Screen
 import com.chatkmm.data.utils.Log
+import com.chatkmm.data.utils.globalApplicationContext
 import com.chatkmm.entity.enums.ErrorType
 import com.chatkmm.root.di.startKoin
 import com.chatkmm.root.presentation.RootViewModel
@@ -45,6 +47,7 @@ class RootActivity : ComponentActivity() {
         viewModel = getKoin().get()
 
         setContent {
+            globalApplicationContext = LocalContext.current
             RootApp(viewModel)
         }
     }
