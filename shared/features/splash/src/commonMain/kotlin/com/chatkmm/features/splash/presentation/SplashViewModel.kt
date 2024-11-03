@@ -40,4 +40,8 @@ class SplashViewModel(val splashRepository: SplashRepository): ViewModel() {
             }
         }
     }
+
+    public fun updateErrorText(value: String? = null) {
+        errorText.update(value = value)
+    }
 }

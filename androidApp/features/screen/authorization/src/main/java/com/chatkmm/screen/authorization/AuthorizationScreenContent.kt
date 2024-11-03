@@ -1,4 +1,4 @@
-package com.widmeyertemlpate.features.screen.authorization
+package com.chatkmm.screen.authorization
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

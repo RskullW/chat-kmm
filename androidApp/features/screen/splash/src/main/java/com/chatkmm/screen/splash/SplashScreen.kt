@@ -7,8 +7,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.chatkmm.base.features.enum.Screen
+import com.chatkmm.data.utils.localize
 import com.chatkmm.features.splash.presentation.SplashViewModel
+import com.chatkmm.resources.MultiplatformResource
 import com.chatkmm.root.presentation.RootViewModel
+import com.chatkmm.ui.MainDialog
 import com.chatkmm.ui.MainTheme
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
@@ -26,7 +30,16 @@ fun SplashScreen() {
 
     LaunchedEffect(newScreen) {
         if (newScreen != null) {
-            rootViewModel.updateScreen(newScreen!!, emptyList(), true)
+            try {
+                rootViewModel.updateScreen(
+                    screen = newScreen ?: throw Throwable(message = MultiplatformResource.strings.errorDescription.localize()),
+                    argumentsJson = emptyList(),
+                    isClear = true
+                )
+
+            } catch (e: Throwable) {
+                viewModel.updateErrorText(value = e.message)
+            }
         }
     }
 
@@ -34,7 +47,13 @@ fun SplashScreen() {
         SplashScreenContent()
 
         if (!errorText.isNullOrEmpty()) {
-
+            MainDialog(
+                title = MultiplatformResource.strings.errorTitle.localize(),
+                description = errorText ?: MultiplatformResource.strings.errorDescription.localize(),
+                cancelText = MultiplatformResource.strings.close.localize()) {
+                viewModel.updateErrorText()
+                activity.finish()
+            }
         }
     }
 }
