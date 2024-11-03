@@ -6,7 +6,10 @@ import dev.icerock.moko.network.exceptions.ResponseException
 import io.ktor.client.request.HttpRequest
 import io.ktor.client.statement.HttpResponse
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -22,15 +25,20 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
         return try {
             val body = responseBody.orEmpty()
             val jsonObject = json.parseToJsonElement(body).jsonObject
-            val responseTitle = jsonObject.get(ERROR_TITLE)?.jsonPrimitive?.content.orEmpty()
-            val responseMessage = jsonObject.get(ERROR_MESSAGE)?.jsonPrimitive?.content.orEmpty()
-            val responseStatus: Int = jsonObject.get(ERROR_STATUS)?.jsonPrimitive?.int ?: 0
+
+            val detailArray = jsonObject[ERROR] as? JsonArray ?: return null
+
+            val detail = detailArray.firstOrNull() as? JsonObject ?: return null
+            val msg = detail[ERROR_MESSAGE]?.jsonPrimitive?.content ?: "unknown error"
+            val type = detail[ERROR_TYPE]?.jsonPrimitive?.content ?: "unknown type"
+            val status = response.status.value
+
             CustomResponseException(
                 request = request,
                 response = response,
-                responseTitle = responseTitle,
-                responseMessage = responseMessage,
-                responseStatus = responseStatus
+                responseType = type,
+                responseMessage = msg,
+                responseStatus = status
             )
         } catch (exception: Exception) {
             null
@@ -38,8 +46,8 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
     }
 
     companion object {
-        private const val ERROR_TITLE = "title"
-        private const val ERROR_MESSAGE = "detail"
-        private const val ERROR_STATUS = "status"
+        private const val ERROR = "detail"
+        private const val ERROR_MESSAGE = "msg"
+        private const val ERROR_TYPE = "type"
     }
 }

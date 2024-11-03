@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.chatkmm.screen.***"
+    namespace = "com.chatkmm.screen.registration"
     compileSdk = 34
 
     defaultConfig {

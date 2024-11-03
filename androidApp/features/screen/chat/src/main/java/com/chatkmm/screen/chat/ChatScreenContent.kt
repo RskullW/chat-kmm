@@ -26,7 +26,7 @@ fun ChatScreenContent() {
     ) {
         Text(
             text = "Widmeyer Template",
-            style = B.typography().text.title,
+            style = B.typography().main.title,
             color = B.colors().secondary
         )
     }

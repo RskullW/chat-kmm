@@ -21,7 +21,7 @@ fun TextButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     normalTextColor: Color = B.colors().primary,
-    textStyle: TextStyle = B.typography().text.buttonText,
+    textStyle: TextStyle = B.typography().main.buttonText,
 ) {
     val isPressed = remember { mutableStateOf(false) }
 

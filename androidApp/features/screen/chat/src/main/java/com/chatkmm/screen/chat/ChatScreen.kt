@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.chatkmm.features.chat.presentation.ChatViewModel
 import com.chatkmm.root.presentation.RootViewModel
 import com.chatkmm.ui.MainTheme
-import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
 
 @Composable

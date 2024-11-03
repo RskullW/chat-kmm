@@ -2,11 +2,16 @@ package com.chatkmm.di
 
 import com.chatkmm.data.infrastructure.KeyValueStorage
 import com.chatkmm.data.infrastructure.NativeHost
+import com.chatkmm.data.model.CustomResponseException
 import com.chatkmm.data.utils.CustomExceptionParser
+import com.chatkmm.data.utils.Log
 import com.chatkmm.entity.DeadTokenException
 import dev.icerock.moko.network.createHttpClientEngine
 import dev.icerock.moko.network.exceptionfactory.HttpExceptionFactory
 import dev.icerock.moko.network.exceptionfactory.parser.ValidationExceptionParser
+import dev.icerock.moko.network.generated.apis.AuthorizationApi
+import dev.icerock.moko.network.generated.apis.UsersApi
+import dev.icerock.moko.network.generated.models.RefreshToken
 import dev.icerock.moko.network.nullable.Nullable
 import dev.icerock.moko.network.plugins.ExceptionPlugin
 import dev.icerock.moko.network.plugins.RefreshTokenPlugin
@@ -18,6 +23,7 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import org.koin.mp.KoinPlatform
 
 
 @Suppress("LongMethod")
@@ -32,42 +38,65 @@ val networkModule: Module = module {
 
     singleOf(::createHttpClient)
 
- /*   single<TestApi> {
-        TestApi(
+    single<UsersApi> {
+        UsersApi(
             basePath = baseUrl,
             httpClient = get(),
             json = get()
         )
-    }*/
+    }
 
 }
 
 private fun createHttpClient(
     json: Json,
-    keyValueStorage: KeyValueStorage,
-//    tokenApi: TokenApi?,
+    authorizationApi: AuthorizationApi?,
 ): HttpClient {
-    return HttpClient(createHttpClientEngine()) {
+    val keyValueStorage: KeyValueStorage = KoinPlatform.getKoin().get()
+    Log("ACCESS TOKEN", keyValueStorage.accessToken.toString())
+    Log("REFRESH TOKEN", keyValueStorage.refreshToken.toString())
 
-/*
-        tokenApi?.let {
+    return HttpClient(createHttpClientEngine()) {
+        install(ExceptionPlugin) {
+            exceptionFactory = HttpExceptionFactory(
+                defaultParser = CustomExceptionParser(json),
+                customParsers = mapOf(
+                    HttpStatusCode.UnprocessableEntity.value to ValidationExceptionParser(json)
+                )
+            )
+        }
+
+        expectSuccess = false
+
+        if (authorizationApi != null) {
             install(RefreshTokenPlugin) {
                 isCredentialsActual = { request ->
                     request.headers["Authorization"] == keyValueStorage.accessToken?.let { "Bearer $it" }
                 }
                 updateTokenHandler = {
                     try {
-                        val response = tokenApi.refreshTokenPost(
-                            RefreshTokenRequest(
-                                accessToken = Nullable(keyValueStorage.accessToken),
-                                refreshToken = Nullable(keyValueStorage.refreshToken)
-                            )
+                        val response = authorizationApi.refreshTokenApiV1UsersRefreshTokenPostResponse(
+                            refreshToken = RefreshToken(refreshToken = keyValueStorage.refreshToken)
                         )
+
                         val body = response.body()
-                        keyValueStorage.accessToken = body.accessToken?.value
-                        keyValueStorage.refreshToken = body.refreshToken?.value
+                        keyValueStorage.accessToken = body.accessToken
+                        keyValueStorage.refreshToken = body.refreshToken
+
                         response.httpResponse.status == HttpStatusCode.OK
+                    } catch (e: CustomResponseException) {
+                        e.printStackTrace()
+
+                        keyValueStorage.accessToken = null
+                        keyValueStorage.refreshToken = null
+
+                        throw DeadTokenException(
+                            message = e.message ?: "",
+                            cause = e
+                        )
                     } catch (exc: Exception) {
+                        exc.printStackTrace()
+
                         keyValueStorage.accessToken = null
                         keyValueStorage.refreshToken = null
 
@@ -85,17 +114,6 @@ private fun createHttpClient(
                 }
             }
         }
-*/
-
-        install(ExceptionPlugin) {
-            exceptionFactory = HttpExceptionFactory(
-                defaultParser = CustomExceptionParser(json),
-                customParsers = mapOf(
-                    HttpStatusCode.UnprocessableEntity.value to ValidationExceptionParser(json)
-                )
-            )
-        }
-
-        expectSuccess = false
     }
 }
+

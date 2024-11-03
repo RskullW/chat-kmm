@@ -1,0 +1,443 @@
+openapi: 3.0.2
+info:
+  title: Mango test Backend
+  description: Test for mobile developers
+  version: 0.0.1
+paths:
+  /api/v1/users/send-auth-code/:
+    post:
+      tags:
+        - Authorization
+      summary: Send Auth Code
+      operationId: send_auth_code_api_v1_users_send_auth_code__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneBase'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/users/check-auth-code/:
+    post:
+      tags:
+        - Authorization
+      summary: Check Auth Code
+      operationId: check_auth_code_api_v1_users_check_auth_code__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckAuthCode'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginOut'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/users/register/:
+    post:
+      tags:
+        - Authorization
+      summary: User Register
+      operationId: user_register_api_v1_users_register__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterIn'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/users/me/:
+    get:
+      tags:
+        - Users
+      summary: Get Current User
+      operationId: get_current_user_api_v1_users_me__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCurrentUserProfile'
+    put:
+      tags:
+        - users
+      summary: Update User
+      operationId: update_user_api_v1_users_me__put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdateSend'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/users/refresh-token/:
+    post:
+      tags:
+        - Authorization
+      summary: Refresh Token
+      operationId: refresh_token_api_v1_users_refresh_token__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/users/check-jwt/:
+    get:
+      tags:
+        - Users
+      summary: Check Jwt
+      operationId: check_jwt_api_v1_users_check_jwt__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    Avatars:
+      title: Avatars
+      required:
+        - bigAvatar
+        - miniAvatar
+      type: object
+      properties:
+        avatar:
+          title: Avatar
+          type: string
+        bigAvatar:
+          title: Bigavatar
+          type: string
+        miniAvatar:
+          title: Miniavatar
+          type: string
+    CheckAuthCode:
+      title: CheckAuthCode
+      required:
+        - phone
+        - code
+      type: object
+      properties:
+        phone:
+          title: Phone
+          maxLength: 30
+          type: string
+        code:
+          title: Code
+          type: string
+      description: Scheme for auth code
+    GetCurrentUserProfile:
+      title: GetCurrentUserProfile
+      required:
+        - profile_data
+      type: object
+      properties:
+        profile_data:
+          $ref: '#/components/schemas/UserProfileSend'
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    LoginOut:
+      title: LoginOut
+      required:
+        - is_user_exists
+      type: object
+      properties:
+        refresh_token:
+          title: Refresh Token
+          type: string
+          format: uuid
+        access_token:
+          title: Access Token
+          type: string
+        user_id:
+          title: User Id
+          type: integer
+        is_user_exists:
+          title: Is User Exists
+          type: boolean
+      description: Scheme for out login info
+    Message:
+      title: Message
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+    PhoneBase:
+      title: PhoneBase
+      required:
+        - phone
+      type: object
+      properties:
+        phone:
+          title: Phone
+          maxLength: 30
+          type: string
+      description: Scheme for user auth on phone
+    RefreshToken:
+      title: RefreshToken
+      type: object
+      properties:
+        refresh_token:
+          title: Refresh Token
+          type: string
+          format: uuid
+    RegisterIn:
+      title: RegisterIn
+      required:
+        - phone
+        - name
+        - username
+      type: object
+      properties:
+        phone:
+          title: Phone
+          type: string
+        name:
+          title: Name
+          maxLength: 128
+          type: string
+        username:
+          title: Username
+          maxLength: 32
+          minLength: 5
+          type: string
+      description: Scheme for user register
+    Success:
+      title: Success
+      required:
+        - is_success
+      type: object
+      properties:
+        is_success:
+          title: Is Success
+          type: boolean
+    Token:
+      title: Token
+      type: object
+      properties:
+        refresh_token:
+          title: Refresh Token
+          type: string
+          format: uuid
+        access_token:
+          title: Access Token
+          type: string
+        user_id:
+          title: User Id
+          type: integer
+      description: Scheme for jwt token
+    UploadImage:
+      title: UploadImage
+      required:
+        - filename
+        - base_64
+      type: object
+      properties:
+        filename:
+          title: Filename
+          type: string
+        base_64:
+          title: Base 64
+          type: string
+    UserProfileSend:
+      title: UserProfileSend
+      required:
+        - name
+        - username
+        - id
+        - online
+        - phone
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        username:
+          title: Username
+          type: string
+        birthday:
+          title: Birthday
+          type: string
+          format: date
+        city:
+          title: City
+          type: string
+        vk:
+          title: Vk
+          type: string
+        instagram:
+          title: Instagram
+          type: string
+        status:
+          title: Status
+          type: string
+        avatar:
+          title: Avatar
+          type: string
+        id:
+          title: Id
+          type: integer
+        last:
+          title: Last
+          type: string
+          format: date-time
+        online:
+          title: Online
+          type: boolean
+        created:
+          title: Created
+          type: string
+          format: date-time
+        phone:
+          title: Phone
+          type: string
+        completed_task:
+          title: Completed Task
+          type: integer
+          default: 0
+        avatars:
+          $ref: '#/components/schemas/Avatars'
+    UserUpdate:
+      title: UserUpdate
+      required:
+        - name
+        - username
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        username:
+          title: Username
+          type: string
+        birthday:
+          title: Birthday
+          type: string
+          format: date
+        city:
+          title: City
+          type: string
+        vk:
+          title: Vk
+          type: string
+        instagram:
+          title: Instagram
+          type: string
+        status:
+          title: Status
+          type: string
+        avatar:
+          $ref: '#/components/schemas/UploadImage'
+    UserUpdateSend:
+      title: UserUpdateSend
+      type: object
+      properties:
+        avatars:
+          $ref: '#/components/schemas/Avatars'
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

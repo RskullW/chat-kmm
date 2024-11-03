@@ -29,7 +29,7 @@ kotlin {
             implementation(projects.shared.entity)
             implementation(projects.shared.resources)
             implementation(projects.shared.features.base)
-       //     implementation(projects.shared.features.user)
+            implementation(projects.shared.features.customer)
             implementation(libs.mokoMvvmCore)
             implementation(libs.mokoMvvmFlow)
             implementation(libs.mokoMvvmLiveData)

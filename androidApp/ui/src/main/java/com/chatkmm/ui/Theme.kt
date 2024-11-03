@@ -25,7 +25,7 @@ fun MainTheme(
 
     CompositionLocalProvider(
         localColors(LocalContext.current) provides colors,
-        localTypography(LocalContext.current) provides Typography(mainTextFont(LocalContext.current))
+        localTypography() provides Typography(regular(), bold())
     ) {
         MaterialTheme(
             content = content,
@@ -33,9 +33,11 @@ fun MainTheme(
     }
 }
 
-fun mainTextFont(context: Context) = FontFamily( Font(resId = MultiplatformResource.fonts.regular.fontResourceId) )
+fun regular() = FontFamily( Font(resId = MultiplatformResource.fonts.roboto_regular.fontResourceId) )
+fun bold() = FontFamily( Font(resId = MultiplatformResource.fonts.roboto_regular.fontResourceId) )
+
 fun localColors(context: Context) = compositionLocalOf <Colors> { Colors.Light(context) }
-fun localTypography(context: Context) = compositionLocalOf { Typography(mainTextFont(context)) }
+fun localTypography() = compositionLocalOf { Typography(mainTextFont()) }
 
 object B {
     @Composable
@@ -45,6 +47,6 @@ object B {
 
     @Composable
     fun typography(): Typography {
-        return localTypography(context = LocalContext.current).current
+        return localTypography().current
     }
 }
