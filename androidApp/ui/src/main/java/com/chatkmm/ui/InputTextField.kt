@@ -58,6 +58,12 @@ fun InputTextField(
 
     var isFocused by remember { mutableStateOf(false) }
 
+    val textColor = if (isError || !errorText.isNullOrEmpty()) {
+        B.colors().error
+    } else {
+        primaryColor
+    }
+
     val borderColor = if (isError || !errorText.isNullOrEmpty()) {
         B.colors().error
     } else if (isFocused) {
@@ -77,8 +83,8 @@ fun InputTextField(
     ) {
 
         val customTextSelectionColors = TextSelectionColors(
-            handleColor = B.colors().primary,
-            backgroundColor = B.colors().black.copy(0.2f)
+            handleColor = B.colors().secondary,
+            backgroundColor = B.colors().transparent
         )
 
         var textFieldValue by remember {
@@ -101,7 +107,7 @@ fun InputTextField(
                     .fillMaxWidth(),
                 text = hintText,
                 style = if (isFocused) B.typography().main.hintText else B.typography().main.inputText,
-                color = primaryColor
+                color = textColor
             )
         }
         else {
@@ -110,7 +116,7 @@ fun InputTextField(
                     .padding(start = 20.dp, top = 14.dp),
                 text = hintText,
                 style = B.typography().main.hintText,
-                color = primaryColor
+                color = textColor
             )
         }
 
@@ -191,9 +197,9 @@ internal fun TextField_Preview() {
                 text = "123",
                 hintText = "Пароль",
                 isEnabled = true,
-                isError = false,
+                isError = true,
                 singleLine = true,
-                errorText = null,
+                errorText = "23",
                 )
         }
     }

@@ -21,6 +21,7 @@ import com.chatkmm.root.di.startKoin
 import com.chatkmm.root.presentation.RootViewModel
 import com.chatkmm.screen.authorization.AuthorizationScreen
 import com.chatkmm.screen.menu.MenuScreen
+import com.chatkmm.screen.registration.RegistrationScreen
 import com.chatkmm.screen.splash.SplashScreen
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -94,6 +95,10 @@ fun RootApp(viewModel: RootViewModel) {
         }
         composable(Screen.AUTHORIZATION.toString()) {
             AuthorizationScreen()
+            BackHandler(true) {}
+        }
+        composable(Screen.REGISTRATION.toString()) {
+            RegistrationScreen()
             BackHandler(true) {}
         }
         composable(Screen.MENU.toString()) {

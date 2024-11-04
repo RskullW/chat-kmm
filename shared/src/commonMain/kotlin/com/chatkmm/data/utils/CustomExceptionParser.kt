@@ -26,9 +26,7 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
             val body = responseBody.orEmpty()
             val jsonObject = json.parseToJsonElement(body).jsonObject
 
-            val detailArray = jsonObject[ERROR] as? JsonArray ?: return null
-
-            val detail = detailArray.firstOrNull() as? JsonObject ?: return null
+            val detail = jsonObject[ERROR] as? JsonObject ?: return null
             val msg = detail[ERROR_MESSAGE]?.jsonPrimitive?.content ?: "unknown error"
             val type = detail[ERROR_TYPE]?.jsonPrimitive?.content ?: "unknown type"
             val status = response.status.value
@@ -41,7 +39,6 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
                 responseStatus = status
             )
         } catch (exception: Exception) {
-            Log("", "123123123213")
             null
         }
     }

@@ -2,6 +2,7 @@ package com.chatkmm.screen.authorization
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,7 +52,7 @@ import com.chatkmm.ui.button.ImageButton
 import com.chatkmm.ui.button.MainButton
 import com.chatkmm.ui.indicator.PageIndicator
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AuthorizationScreenContent(
     pagerState: PagerState,
@@ -101,13 +102,18 @@ fun AuthorizationScreenContent(
                                 .padding(start = 32.dp, end = 32.dp, bottom = 16.dp),
                             text = MultiplatformResource.strings.authorizationDescription.localize(),
                             style = B.typography().main.title,
-                            color = B.colors().secondary,
+                            color = B.colors().black,
                             textAlign = TextAlign.Center,
                         )
 
                         Column(
                             modifier = Modifier
                                 .padding(start = 32.dp, end = 32.dp, bottom = 16.dp)
+                                .border(
+                                    width = 1.dp,
+                                    color = B.colors().black,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
                                 .clip(RoundedCornerShape(8.dp))
                                 .clickable {
                                     onClickSelector()
@@ -121,23 +127,27 @@ fun AuthorizationScreenContent(
                             Text(
                                 text = "Выбор региона",
                                 style = B.typography().main.hintText,
-                                color = B.colors().secondary
+                                color = B.colors().black
                             )
 
                             Text(
                                 text = currentPhoneNumberCountry.country,
                                 style = B.typography().main.main,
-                                color = B.colors().secondary
+                                color = B.colors().black
                             )
                         }
 
                         InputTextField(
                             modifier = Modifier
-                                .padding(horizontal = 32.dp),
+                                .padding(horizontal = 32.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(B.colors().white),
                             hintText = MultiplatformResource.strings.phoneNumber.localize(),
                             text = phoneNumber,
                             onTextChange = onSetPhoneNumber,
-                            keyboardType = KeyboardType.Phone)
+                            keyboardType = KeyboardType.Phone,
+                            primaryColor = B.colors().black
+                        )
                     }
                 }
                 1 -> {
@@ -151,17 +161,20 @@ fun AuthorizationScreenContent(
                                 .padding(start = 32.dp, end = 32.dp, bottom = 16.dp),
                             text = MultiplatformResource.strings.inputCode.localize(),
                             style = B.typography().main.title,
-                            color = B.colors().thirdly,
+                            color = B.colors().black,
                             textAlign = TextAlign.Center,
                         )
 
                         InputTextField(
                             modifier = Modifier
-                                .padding(horizontal = 32.dp),
-                            hintText = MultiplatformResource.strings.code.format(Constants.Numbers.codeLength.toString()),
+                                .padding(horizontal = 32.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(B.colors().white),
+                            hintText = MultiplatformResource.strings.code.localize(),
                             text = code,
                             onTextChange = onSetCode,
-                            keyboardType = KeyboardType.Number
+                            keyboardType = KeyboardType.Number,
+                            primaryColor = B.colors().black
                         )
                     }
                 }
@@ -212,7 +225,7 @@ fun AuthorizationScreenContent(
 @Preview
 internal fun AuthorizationScreenContent_Preview() {
     globalApplicationContext = LocalContext.current
-    var currentPage by remember { mutableIntStateOf(2) }
+    var currentPage by remember { mutableIntStateOf(0) }
 
     var phoneNumberCountry by remember {
         mutableStateOf(
