@@ -76,10 +76,16 @@ actual class AuthorizationRepositoryImpl(private val authorizationApi: Authoriza
             )
         )
 
-        keyValueStorage.accessToken = result.accessToken
-        keyValueStorage.refreshToken = result.refreshToken
+        keyValueStorage.phoneNumber = phoneNumber
 
-        return if (result.isUserExists) Screen.MENU else Screen.REGISTRATION
+        return if (result.isUserExists) {
+            keyValueStorage.accessToken = result.accessToken
+            keyValueStorage.refreshToken = result.refreshToken
+
+            Screen.MENU
+        } else {
+            Screen.REGISTRATION
+        }
     }
 
     private fun getCountryName(regionCode: String): String {

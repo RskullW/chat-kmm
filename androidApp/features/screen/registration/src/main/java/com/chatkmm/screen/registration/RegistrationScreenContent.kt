@@ -51,7 +51,7 @@ fun RegistrationScreenContent(
 ) {
     var isTextVisible by remember { mutableStateOf(false) }
     var isCircleVisible by remember { mutableStateOf(false) }
-    var isAllElementsVisible by remember { mutableStateOf(true) }
+    var isAllElementsVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         isTextVisible = true
@@ -143,7 +143,7 @@ fun RegistrationScreenContent(
                         InputTextField(
                             modifier = Modifier
                                 .padding(start = 16.dp, end = 16.dp),
-                            hintText = MultiplatformResource.strings.inputSecondName.localize(),
+                            hintText = MultiplatformResource.strings.inputUsername.localize(),
                             text = username,
                             onTextChange = onSetUsername,
                             isError = !errorText.isNullOrEmpty(),

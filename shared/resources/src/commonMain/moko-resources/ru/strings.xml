@@ -18,4 +18,11 @@
 	<string name="errorTitle">Упс! Что-то пошло не так :(</string>
 	<string name="errorDescription">Произошла непредвиденная ошибка, пожалуйста, попробуйте ещё раз или свяжитесь с поддержкой для решения проблемы!</string>
 	<string name="welcome">Добро пожаловать!</string>
+	<string name="registration">Регистрация</string>
+	<string name="inputName">Введите имя</string>
+	<string name="inputUsername">Введите никнейм</string>
+	<string name="join">Присоединиться</string>
+	<string name="joinError">Произошла ошибка при регистрации аккаунта, пожалуйста, попробуйте ещё раз!</string>
+	<string name="joinErrorName">Имя пользователя должно содержать только буквы без дополнительных символов от 4 до 16 символов!</string>
+	<string name="joinErrorUsername">Никнейм должен быть от 4 до 16 символов и содержать символы от aA до zZ,0-9 и -_</string>
 </resources>
