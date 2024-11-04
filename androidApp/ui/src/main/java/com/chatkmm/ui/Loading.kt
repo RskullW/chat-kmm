@@ -10,10 +10,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun LoadingContent() {
+fun LoadingContent(
+    color: Color = B.colors().primary
+) {
     CircularProgressIndicator(
         modifier = Modifier.size(22.dp),
-        color = B.colors().primary,
+        color = color,
         trackColor = B.colors().transparent,
         strokeWidth = 2.dp,
         strokeCap = StrokeCap.Square

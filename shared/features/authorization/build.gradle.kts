@@ -24,6 +24,9 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.libphonenumber)
+        }
         commonMain.dependencies {
             implementation(projects.shared)
             implementation(projects.shared.entity)

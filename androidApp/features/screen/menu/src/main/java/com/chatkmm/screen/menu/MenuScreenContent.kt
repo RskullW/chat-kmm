@@ -1,4 +1,4 @@
-package com.chatkmm.features.screen.menu
+package com.chatkmm.screen.menu
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

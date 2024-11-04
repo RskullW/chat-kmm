@@ -20,7 +20,7 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
         request: HttpRequest,
         response: HttpResponse,
         responseBody: String?,
-    ): ResponseException? {
+    ): CustomResponseException? {
         @Suppress("TooGenericExceptionCaught", "SwallowedException")
         return try {
             val body = responseBody.orEmpty()
@@ -41,6 +41,7 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
                 responseStatus = status
             )
         } catch (exception: Exception) {
+            Log("", "123123123213")
             null
         }
     }

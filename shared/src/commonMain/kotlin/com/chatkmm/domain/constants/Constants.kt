@@ -7,10 +7,12 @@ object Constants {
         val MINUTE = SECOND * 60
 
         val splashDelay = SECOND * 4
+        val numberOfPagesAuthorization = 2
+        val codeLength = 6
     }
 
     object Strings {
-        val errorConnection: String = "Нет подключения к интернету"
+        val defaultRegion = "RU"
 
         object SYSTEM {
         }
@@ -20,6 +22,7 @@ object Constants {
 
     }
     object Region {
+        val defaultMask = "+7 XXX XXX XX XX" // возвращаем дефолтную маску, если пример недоступен
     }
 
     object RequestCode {

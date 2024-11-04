@@ -14,6 +14,7 @@ appcompat = "1.7.0"
 material = "1.12.0"
 multiplatformSettingsVersion = "1.1.1"
 core = "1.13.1"
+libphonenumber = "8.13.49"
 
 # kotlinx
 kotlinxSerializationVersion = "1.6.3"
@@ -93,6 +94,9 @@ gmsPlayServiceLocation = { module = "com.google.android.gms:play-services-locati
 threetenabp = { module = "com.jakewharton.threetenabp:threetenabp", version.ref = "threetenabp"}
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 compose-swipeToPullRefresh = { module = "eu.bambooapps:compose-material3-pullrefresh", version.ref = "compose-swipeToPullRefresh" } # Обновление списка с помощью свайпа
+
+# google
+libphonenumber = { module = "com.googlecode.libphonenumber:libphonenumber", version.ref = "libphonenumber" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

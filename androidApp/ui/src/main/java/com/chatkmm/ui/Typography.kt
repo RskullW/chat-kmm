@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.sp
 @Immutable
 data class Typography(private val regular: FontFamily, private val bold: FontFamily) {
     val main: TitleTypography = TitleTypography(regular, bold)
+    val registration: RegistrationTypography = RegistrationTypography(regular, bold)
     val dialog: DialogTypography = DialogTypography(regular, bold)
 }
 
@@ -56,8 +57,8 @@ data class TitleTypography(
     ).preciseLineHeight()
 
     val hintText: TextStyle = TextStyle(
-        fontSize = 16.sp,
-        lineHeight = 28.sp,
+        fontSize = 14.sp,
+        lineHeight = 12.sp,
         fontFamily = regular,
         fontWeight = FontWeight.W400
     ).preciseLineHeight()
@@ -89,6 +90,41 @@ data class DialogTypography(
         fontWeight = FontWeight.W400,
     )
 }
+
+@Immutable
+data class RegistrationTypography(
+    private val regular: FontFamily,
+    private val bold: FontFamily,
+) {
+    val title: TextStyle = TextStyle(
+        fontSize = 28.sp,
+        lineHeight = 28.sp,
+        fontFamily = regular,
+        fontWeight = FontWeight.W600
+    ).preciseLineHeight()
+
+    val inputText: TextStyle = TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 28.sp,
+        fontFamily = regular,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
+    val text: TextStyle = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 28.sp,
+        fontFamily = regular,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
+    val buttonText: TextStyle = TextStyle(
+        fontSize = 18.sp,
+        lineHeight = 22.sp,
+        fontFamily = regular,
+        fontWeight = FontWeight.W600,
+    )
+}
+
 fun TextStyle.preciseLineHeight(): TextStyle = this.copy(
     platformStyle = PlatformTextStyle(
         includeFontPadding = false

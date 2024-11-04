@@ -1,4 +1,4 @@
-package com.chatkmm.features.screen.profile
+package com.chatkmm.screen.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

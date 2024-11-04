@@ -4,13 +4,18 @@
 	<string name="appName">Mango Chat</string>
 	<string name="close">Закрыть</string>
 	<string name="resume">Продолжить</string>
+	<string name="back">Назад</string>
 	<string name="exit">Выйти из аккаунта</string>
 	<string name="authorization">Авторизация</string>
+	<string name="authorizationDescription">Укажите код страны и введите свой номер телефона</string>
 	<string name="phoneNumber">Номер телефона</string>
 	<string name="code">Код</string>
+	<string name="inputCode">Введите 6-значный код, отправленный на телефон сообщением</string>
+	<string name="country">Страна</string>
 	<string name="name">Имя</string>
 	<string name="chat">Чат</string>
 	<string name="splashDescription">Чекай таски и переписывайся в одном приложении сразу ;-)</string>
 	<string name="errorTitle">Упс! Что-то пошло не так :(</string>
 	<string name="errorDescription">Произошла непредвиденная ошибка, пожалуйста, попробуйте ещё раз или свяжитесь с поддержкой для решения проблемы!</string>
+	<string name="welcome">Добро пожаловать!</string>
 </resources>

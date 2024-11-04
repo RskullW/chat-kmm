@@ -38,6 +38,17 @@ val networkModule: Module = module {
 
     singleOf(::createHttpClient)
 
+    single<AuthorizationApi> {
+        AuthorizationApi(
+            basePath = baseUrl,
+            httpClient = createHttpClient(
+                json = get(),
+                authorizationApi = null,
+            ),
+            json = get()
+        )
+    }
+
     single<UsersApi> {
         UsersApi(
             basePath = baseUrl,

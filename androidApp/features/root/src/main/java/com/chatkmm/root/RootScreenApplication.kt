@@ -19,6 +19,8 @@ import com.chatkmm.data.utils.globalApplicationContext
 import com.chatkmm.entity.enums.ErrorType
 import com.chatkmm.root.di.startKoin
 import com.chatkmm.root.presentation.RootViewModel
+import com.chatkmm.screen.authorization.AuthorizationScreen
+import com.chatkmm.screen.menu.MenuScreen
 import com.chatkmm.screen.splash.SplashScreen
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -90,13 +92,13 @@ fun RootApp(viewModel: RootViewModel) {
             SplashScreen()
             BackHandler(true) {}
         }
-     /*   composable(Screen.AUTHORIZATION.toString()) {
+        composable(Screen.AUTHORIZATION.toString()) {
             AuthorizationScreen()
             BackHandler(true) {}
         }
-        composable(Screen.MAIN.toString()) {
-            MainScreen()
+        composable(Screen.MENU.toString()) {
+            MenuScreen()
             BackHandler(true) {}
-        }*/
+        }
     }
 }

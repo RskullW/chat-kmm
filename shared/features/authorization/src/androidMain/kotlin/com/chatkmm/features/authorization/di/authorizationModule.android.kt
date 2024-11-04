@@ -6,4 +6,10 @@ import com.chatkmm.features.authorization.presentation.AuthorizationViewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-expect val authorizationModule: Module
+actual val authorizationModule: Module = module {
+    factory <AuthorizationRepository> { AuthorizationRepositoryImpl(
+        authorizationApi = get(),
+        keyValueStorage = get()
+    ) }
+    factory { AuthorizationViewModel(authorizationRepository = get()) }
+}
