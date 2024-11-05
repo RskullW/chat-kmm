@@ -20,7 +20,9 @@ import com.chatkmm.entity.enums.ErrorType
 import com.chatkmm.root.di.startKoin
 import com.chatkmm.root.presentation.RootViewModel
 import com.chatkmm.screen.authorization.AuthorizationScreen
+import com.chatkmm.screen.chat.ChatScreen
 import com.chatkmm.screen.menu.MenuScreen
+import com.chatkmm.screen.profile.ProfileScreen
 import com.chatkmm.screen.registration.RegistrationScreen
 import com.chatkmm.screen.splash.SplashScreen
 import org.koin.android.ext.android.getKoin
@@ -100,6 +102,18 @@ fun RootApp(viewModel: RootViewModel) {
         composable(Screen.REGISTRATION.toString()) {
             RegistrationScreen()
             BackHandler(true) {}
+        }
+        composable(Screen.CHAT.toString()) {
+            ChatScreen()
+            BackHandler(true) {
+                viewModel.finishScreen()
+            }
+        }
+        composable(Screen.PROFILE.toString()) {
+            ProfileScreen()
+            BackHandler(true) {
+                viewModel.finishScreen()
+            }
         }
         composable(Screen.MENU.toString()) {
             MenuScreen()

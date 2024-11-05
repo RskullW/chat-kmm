@@ -14,6 +14,7 @@ data class Typography(private val regular: FontFamily, private val bold: FontFam
     val main: TitleTypography = TitleTypography(regular, bold)
     val registration: RegistrationTypography = RegistrationTypography(regular, bold)
     val dialog: DialogTypography = DialogTypography(regular, bold)
+    val chat: ChatTypography = ChatTypography(regular, bold)
 }
 
 @Immutable
@@ -124,6 +125,34 @@ data class RegistrationTypography(
         fontWeight = FontWeight.W600,
     )
 }
+
+@Immutable
+data class ChatTypography(
+    private val regular: FontFamily,
+    private val bold: FontFamily,
+) {
+    val name: TextStyle = TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 10.sp,
+        fontFamily = bold,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
+    val message: TextStyle = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 10.sp,
+        fontFamily = regular,
+        fontWeight = FontWeight.W400
+    ).preciseLineHeight()
+
+    val date: TextStyle = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 10.sp,
+        fontFamily = bold,
+        fontWeight = FontWeight.W400,
+    )
+}
+
 
 fun TextStyle.preciseLineHeight(): TextStyle = this.copy(
     platformStyle = PlatformTextStyle(

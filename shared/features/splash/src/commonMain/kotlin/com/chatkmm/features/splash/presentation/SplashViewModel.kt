@@ -5,6 +5,7 @@ import com.chatkmm.base.features.ViewModel
 import com.chatkmm.base.features.enum.Screen
 import com.chatkmm.data.model.ConfigParams
 import com.chatkmm.data.model.CustomResponseException
+import com.chatkmm.data.utils.Log
 import com.chatkmm.data.utils.localize
 import com.chatkmm.domain.constants.Constants
 import com.chatkmm.features.splash.domain.SplashRepository

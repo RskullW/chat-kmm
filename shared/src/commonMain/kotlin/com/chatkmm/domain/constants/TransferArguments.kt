@@ -1,10 +1,10 @@
 package com.chatkmm.domain.constants
 
 object TransferArguments {
-    private val tag = "widmeyertemplate"
+    private val tag = "chatkmm"
 
     /**
-     * to INT
+     * to CHAT
      */
-    val test: String = "$tag-INT: LAST_NUMBER_ORDER"
+    val localChat: String = "$tag-CHAT: LOCAL_CHAT"
 }

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+
+    id("kotlin-kapt")
 }
 
 kotlin {
@@ -24,6 +26,10 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.room.ktx)
+            implementation(libs.room.runtime)
+        }
         commonMain.dependencies {
             implementation(projects.shared)
             implementation(projects.shared.entity)

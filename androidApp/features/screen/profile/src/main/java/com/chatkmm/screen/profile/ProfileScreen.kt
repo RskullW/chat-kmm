@@ -14,7 +14,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.getKoin
 
 @Composable
-fun Screen() {
+fun ProfileScreen() {
     val context = LocalContext.current
     val activity = context as? ComponentActivity ?: throw IllegalStateException("Context is not an instance of ComponentActivity")
 
