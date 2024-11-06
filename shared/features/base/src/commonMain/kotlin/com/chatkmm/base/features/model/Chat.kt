@@ -6,6 +6,6 @@ data class Chat(
     val imageUrl: String,
     val name: String,
     val messages: List<Message>,
-    val status: StatusMessage,
+    val status: StatusMessage?,
     val newMessage: Int?,
 )

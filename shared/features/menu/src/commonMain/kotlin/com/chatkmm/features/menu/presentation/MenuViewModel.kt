@@ -41,11 +41,13 @@ class MenuViewModel(private val menuRepository: MenuRepository): ViewModel() {
     }
 
     public fun update() {
+        updateErrorText()
+
         if (stateScreen.getValue() == StateScreen.LOADING) {
             return
         }
 
-        connectionStatus.update(value = "Соединение...")
+        connectionStatus.update(value = MultiplatformResource.strings.connection.localize())
         updateStateScreen(StateScreen.LOADING)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -56,7 +58,7 @@ class MenuViewModel(private val menuRepository: MenuRepository): ViewModel() {
                 withContextMain {
                     chats.update(value = menuRepository.getChats())
                     profileUrl.update(value = user.profileData.avatar)
-                    connectionStatus.update(value = "Чаты")
+                    connectionStatus.update(value = MultiplatformResource.strings.chats.localize())
 
                     updateStateScreen(StateScreen.DEFAULT)
                 }

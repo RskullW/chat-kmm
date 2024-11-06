@@ -28,11 +28,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatkmm.base.features.enum.Screen
 import com.chatkmm.base.features.enum.StateScreen
 import com.chatkmm.base.features.model.Chat
+import com.chatkmm.data.utils.globalApplicationContext
+import com.chatkmm.data.utils.localize
 import com.chatkmm.resources.MultiplatformResource
 import com.chatkmm.screen.menu.chat.ChatItem
 import com.chatkmm.screen.menu.chat.ChatItemShimmer
@@ -161,9 +164,9 @@ fun MenuScreenContent(
                         ChatItem(
                             imageUrl = chats[index].imageUrl,
                             name = chats[index].name,
-                            lastMessage = chats[index].messages.lastOrNull()?.message ?: "",
+                            lastMessage = chats[index].messages.lastOrNull()?.message ?: MultiplatformResource.strings.startDialog.localize(), // TODO: 0_0
                             dateFormatted = chats[index].messages.lastOrNull()?.dateFormatted ?: "",
-                            newMessage = if (index % 4 == 0) 1 else null,
+                            newMessage = if (index % 4 == 0 && chats[index].messages.isNotEmpty()) 1 else null,
                             onClick = {
                                 onOpenChat(chats[index])
                             },
@@ -199,6 +202,8 @@ fun MenuScreenContent(
 @Composable
 @Preview
 internal fun MenuScreenContent_Preview() {
+    globalApplicationContext = LocalContext.current
+
     MainTheme {
         MenuScreenContent(
             stateScreen = StateScreen.LOADING,

@@ -48,7 +48,7 @@ fun ChatItem(
     name: String,
     lastMessage: String,
     dateFormatted: String,
-    status: StatusMessage,
+    status: StatusMessage?,
     newMessage: Int?,
     isLastDialog: Boolean = false,
     onClick: () -> Unit,
@@ -67,6 +67,9 @@ fun ChatItem(
         }
         StatusMessage.SENT -> {
             MultiplatformResource.images.ic_sent.drawableResId
+        }
+        else -> {
+            null
         }
     }
 
@@ -143,13 +146,15 @@ fun ChatItem(
                         overflow = TextOverflow.Ellipsis
                     )
 
-                    Icon(
-                        modifier = Modifier
-                            .size(18.dp),
-                        painter = painterResource(id = iconStatusId),
-                        contentDescription = "status",
-                        tint = iconStatusColor,
-                    )
+                    if (iconStatusId != null) {
+                        Icon(
+                            modifier = Modifier
+                                .size(18.dp),
+                            painter = painterResource(id = iconStatusId),
+                            contentDescription = "status",
+                            tint = iconStatusColor,
+                        )
+                    }
                 }
 
                 Text(

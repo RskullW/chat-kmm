@@ -15,6 +15,16 @@ class MenuRepositoryImpl(private val usersApi: UsersApi): MenuRepository {
         val chats = mutableListOf<Chat>()
 
         chats.apply {
+            add(
+                Chat(
+                    imageUrl = "",
+                    name = "Widmeyer",
+                    messages = emptyList(),
+                    status = null,
+                    newMessage = null
+                )
+            )
+
             repeat(3) { index ->
                 add(
                     Chat(
@@ -74,6 +84,21 @@ class MenuRepositoryImpl(private val usersApi: UsersApi): MenuRepository {
     private fun generateMessage(lastMessage: String): List<Message> {
         val messages = mutableListOf<Message>(
             Message(
+                message = ".",
+                isMeMessage = false,
+                dateFormatted = "04:00",
+            ),
+            Message(
+                message = "?",
+                isMeMessage = true,
+                dateFormatted = "04:20",
+            ),
+            Message(
+                message = "Случайно отправил...",
+                isMeMessage = false,
+                dateFormatted = "04:20",
+            ),
+            Message(
                 message = "Привет!",
                 isMeMessage = false,
                 dateFormatted = "10:01",
@@ -82,6 +107,11 @@ class MenuRepositoryImpl(private val usersApi: UsersApi): MenuRepository {
                 message = "Хай, how are you?",
                 isMeMessage = true,
                 dateFormatted = "10:11",
+            ),
+            Message(
+                message = "you инглиш? ",
+                isMeMessage = false,
+                dateFormatted = "12:28",
             ),
             Message(
                 message = "O my god, you инглиш? ",

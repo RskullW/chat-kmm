@@ -61,7 +61,7 @@ fun MenuScreen() {
                     ?: MultiplatformResource.strings.errorDescription.localize(),
                 cancelText = MultiplatformResource.strings.close.localize()
             ) {
-                viewModel.updateErrorText()
+                viewModel.update()
             }
         }
     }
