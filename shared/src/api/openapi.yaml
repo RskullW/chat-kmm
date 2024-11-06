@@ -94,7 +94,7 @@ paths:
   /api/v1/users/me/:
     get:
       tags:
-        - Users
+        - users
       summary: Get Current User
       operationId: get_current_user_api_v1_users_me__get
       responses:
@@ -162,7 +162,7 @@ paths:
   /api/v1/users/check-jwt/:
     get:
       tags:
-        - Users
+        - users
       summary: Check Jwt
       operationId: check_jwt_api_v1_users_check_jwt__get
       responses:

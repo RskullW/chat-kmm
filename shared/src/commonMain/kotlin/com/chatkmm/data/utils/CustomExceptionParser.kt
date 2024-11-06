@@ -23,9 +23,13 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
     ): CustomResponseException? {
         @Suppress("TooGenericExceptionCaught", "SwallowedException")
         return try {
+            Log("BODY JSON OBJECT_-", responseBody.toString())
             val body = responseBody.orEmpty()
+            Log("BODY JSON OBJECT", body)
             val jsonObject = json.parseToJsonElement(body).jsonObject
+            Log("BODY JSON OBJECT_1", jsonObject.toString())
 
+            Log("JSON OBJECT", "${jsonObject[ERROR] as? JsonObject}")
             val detail = jsonObject[ERROR] as? JsonObject ?: return null
             val msg = detail[ERROR_MESSAGE]?.jsonPrimitive?.content ?: "unknown error"
             val type = detail[ERROR_TYPE]?.jsonPrimitive?.content ?: "unknown type"
@@ -39,6 +43,7 @@ class CustomExceptionParser(private val json: Json) : HttpExceptionFactory.HttpE
                 responseStatus = status
             )
         } catch (exception: Exception) {
+            exception.printStackTrace()
             null
         }
     }

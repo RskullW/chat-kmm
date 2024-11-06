@@ -44,6 +44,7 @@ fun InputTextField(
     hintText: String,
     onTextChange: (String) -> Unit = {},
     singleLine: Boolean = false,
+    minLines: Int = 1,
     trailingIcon: @Composable (() -> Unit)? = null,
     height: Dp = 56.dp,
     textSelection: Int = 0,
@@ -140,6 +141,7 @@ fun InputTextField(
                 enabled = isEnabled,
                 value = textFieldValue,
                 singleLine = singleLine,
+                minLines = minLines,
                 keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
                 keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(FocusDirection.Down)
@@ -198,7 +200,7 @@ internal fun TextField_Preview() {
                 hintText = "Пароль",
                 isEnabled = true,
                 isError = true,
-                singleLine = true,
+                singleLine = false,
                 errorText = "23",
                 )
         }

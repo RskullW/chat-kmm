@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -94,7 +96,7 @@ fun MenuScreenContent(
         // AppBar
         Row(
             modifier = Modifier
-                .background(B.colors().blue.copy(alpha = 0.1f))
+                .background(B.colors().white)
                 .padding(16.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -103,10 +105,11 @@ fun MenuScreenContent(
             if (bitmapItem == null) {
                 Image(
                     modifier = Modifier
-                        .background(B.colors().secondary.copy(0.3f), CircleShape)
+                        .clip(RoundedCornerShape(1000.dp))
                         .clickable {
                             onSetScreen(Screen.PROFILE)
                         }
+                        .background(B.colors().secondary.copy(0.3f))
                         .padding(4.dp)
                         .size(48.dp),
                     painter = painterResource(id = MultiplatformResource.images.ic_profile.drawableResId),
@@ -115,10 +118,11 @@ fun MenuScreenContent(
             } else {
                 Image(
                     modifier = Modifier
-                        .background(B.colors().secondary.copy(0.3f), CircleShape)
+                        .clip(RoundedCornerShape(1000.dp))
                         .clickable {
                             onSetScreen(Screen.PROFILE)
                         }
+                        .background(B.colors().secondary.copy(0.3f), CircleShape)
                         .padding(4.dp)
                         .size(48.dp),
                     bitmap = bitmapItem!!.asImageBitmap(),
@@ -207,7 +211,7 @@ internal fun MenuScreenContent_Preview() {
     MainTheme {
         MenuScreenContent(
             stateScreen = StateScreen.LOADING,
-            connectionStatus = "Соединение..",
+            connectionStatus = MultiplatformResource.strings.connection.localize(),
             chats = listOf(),
             profileUrl = "",
             onSetScreen = {

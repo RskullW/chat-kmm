@@ -30,4 +30,10 @@
 	<string name="emptyDialog">Вы ещё не общались с этим контактом. Можете начать прямо сейчас!</string>
 	<string name="chats">Чаты</string>
 	<string name="connection">Соединение...</string>
+	<string name="birthday">Дата рождения</string>
+	<string name="city">Город</string>
+	<string name="zodiac">Знак зодиака</string>
+	<string name="editPhoto">Изменение фотографии</string>
+	<string name="save">Сохранить</string>
+	<string name="aboutMe">О себе</string>
 </resources>

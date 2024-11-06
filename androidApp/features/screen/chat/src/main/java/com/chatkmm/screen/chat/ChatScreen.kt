@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.chatkmm.base.features.enum.Screen
 import com.chatkmm.base.features.enum.StateScreen
 import com.chatkmm.base.features.enum.StatusMessage
 import com.chatkmm.data.utils.localize
@@ -29,7 +30,6 @@ import org.koin.java.KoinJavaComponent.getKoin
 @Composable
 fun ChatScreen() {
     val context = LocalContext.current
-    val activity = context as? ComponentActivity ?: throw IllegalStateException("Context is not an instance of ComponentActivity")
 
     val viewModel: ChatViewModel = remember { getKoin().get() }
     val rootViewModel: RootViewModel = remember { getKoin().get() }
@@ -37,12 +37,15 @@ fun ChatScreen() {
 
     val errorText by viewModel.errorText.state.collectAsState()
     val stateScreen by viewModel.stateScreen.state.collectAsState()
+    val isDeadToken by viewModel.isDeadToken.state.collectAsState()
 
-    LaunchedEffect(errorText) {
-        when {
-            errorText != null -> {
-
-            }
+    LaunchedEffect(isDeadToken) {
+        if (isDeadToken == true) {
+            rootViewModel.updateScreen(
+                screen = Screen.AUTHORIZATION,
+                argumentsJson = emptyList(),
+                isClear = true
+            )
         }
     }
 

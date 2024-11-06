@@ -9,6 +9,8 @@ object Constants {
         val splashDelay = SECOND * 4
         val numberOfPagesAuthorization = 2
         val codeLength = 6
+        val cityLength = 16
+        val nameLength = 16
     }
 
     object Strings {
