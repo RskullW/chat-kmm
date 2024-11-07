@@ -168,7 +168,7 @@ fun MenuScreenContent(
                         ChatItem(
                             imageUrl = chats[index].imageUrl,
                             name = chats[index].name,
-                            lastMessage = chats[index].messages.lastOrNull()?.message ?: MultiplatformResource.strings.startDialog.localize(), // TODO: 0_0
+                            lastMessage = chats[index].messages.lastOrNull()?.message ?: MultiplatformResource.strings.startDialog.localize(),
                             dateFormatted = chats[index].messages.lastOrNull()?.dateFormatted ?: "",
                             newMessage = if (index % 4 == 0 && chats[index].messages.isNotEmpty()) 1 else null,
                             onClick = {

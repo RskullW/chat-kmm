@@ -1,8 +1,23 @@
+# Mango Chat
 
-# Widmeyer Template Project
+### Авторское право
+Авторские права на проект, включая все компоненты архитектуры, исходный код принадлежат автору (Github: @rskullw), если иное не указано. Все права защищены.
 
-Основные элементы архитектуры разделены на модули и папки, каждая из которых выполняет определённые функции.
+### Описание
 
+Простой мультиязычный (английский, русский) проект с возможностью авторизации, регистрации, изменение профиля и переходу по чатикам (без реализации, только UI).
+
+**Стек:** Kotlin Multiplatform Mobile, Kotlin, Jetpack Compose, Swift, SwiftUI (не используется в текущем проекте), OpenAPI (для автогенерации контрактов)
+
+Использование JWT для аутентификации и CI/CD для автоматизации сборки и развертывания.
+
+Основано на собственной архитектуре **_Widmeyer Template_**
+
+## Демонстрация проекта:
+
+[![Demo Video](https://github.com/user-attachments/assets/6c7c593f-d0f9-4099-b096-6cdcadf772a2)](https://youtu.be/_RuakAjBUOA)
+
+# Widmeyer Template - информация об архитектуре
 ## Содержание
 1. [Структура проекта](#структура-проекта)
 2. [Android App](#android-app)
@@ -22,13 +37,13 @@
 #### Строковые ресурсы
 При добавлении новой строки в `shared/resources/moko-resources/base/strings.xml`, строковые значения автоматически копируются в:
 
-- `androidApp/ui/res/values/strings.xml` 
+- `androidApp/ui/res/values/strings.xml`
 - `shared/resources/moko-resources/{LANG}/strings.xml` (где `{LANG}` — код языка, например, `ru`, `en`)
 
 #### Цветовые ресурсы
 При добавлении нового цвета в файл `shared/resources/moko-resources/colors/colors.xml`, цветовые значения автоматически копируются в:
 
-- **shared**: `androidApp/ui/res/values/colors.xml` 
+- **shared**: `androidApp/ui/res/values/colors.xml`
 - **android**: `androidApp/ui/Colors.kt` (включая обновление для светлого и темного режимов)
 - **iOS**: `iosApp/Resources/Colors.swift` (включая обновление для светлого и темного режимов)
 
@@ -39,11 +54,11 @@
 Скрипт для переименования проекта и модуля.
 
 #### Функции:
-1. Спрашивает название проекта и автоматически переименовывает текущую папку проекта, а также меняет название в файле `settings.gradle` без пробелов. 
+1. Спрашивает название проекта и автоматически переименовывает текущую папку проекта, а также меняет название в файле `settings.gradle` без пробелов.
    Например, если вы введете "Widmeyer Template", скрипт переименует проект в "WidmeyerTemplate".
-   
+
 2. Спрашивает название модуля и выполняет следующие действия:
-   - Заменяет в проекте пакетное пространство, например, меняет все вхождения `com.chatkmm` на новое, например `com.newproject`.
+  - Заменяет в проекте пакетное пространство, например, меняет все вхождения `com.chatkmm` на новое, например `com.newproject`.
 
 #### Использование:
 - Запустите скрипт в терминале с помощью команды:
@@ -56,12 +71,12 @@
 Файлы автоматического внедрение ресурсов в проект. Для запуска необходимо прописать в терминале ./***.sh
 ### update_strings.sh
 При добавлении новой строки в shared/resources/moko-resources/base автоматически строковые значения добавляются в папку:
-- androidApp/ui/res/values/strings.xml 
-- shared/resources/moko-resources/ru/strings.xml 
+- androidApp/ui/res/values/strings.xml
+- shared/resources/moko-resources/ru/strings.xml
 - shared/resources/moko-resources/en/strings.xml (необходимо удалить из .sh скрипта, если нет локализации. Если есть, то необходимо перевести на соответствующий язык)
 ### update_colors.sh
 При добавлении новой строки в shared/resources/moko-resources/colors автоматически цветовые значения добавляются в папку:
-- androidApp/ui/res/values/colors.xml 
+- androidApp/ui/res/values/colors.xml
 - androidApp/ui/Colors.kt (включая Light и Dark режим)
 - iosApp/Resources/Colors (не реализовано)
 
