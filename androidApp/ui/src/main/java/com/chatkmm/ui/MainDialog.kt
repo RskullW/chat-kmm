@@ -71,6 +71,7 @@ fun MainDialog(
                         text = confirmText,
                         onClick = confirmAction,
                         backgroundColor = B.colors().primary,
+                        textColor = B.colors().secondary,
                         textStyle = B.typography().dialog.buttonText
                     )
                 }

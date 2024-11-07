@@ -13,7 +13,7 @@ class RegistrationRepositoryImpl(private val authorizationApi: AuthorizationApi,
     }
 
     override suspend fun register(name: String, username: String): Boolean {
-        val nameRegex = Regex("^[a-zA-Z]{4,16}$")
+        val nameRegex = Regex("^[^\\d\\W_]{4,16}$")
         val usernameRegex = Regex("^[a-zA-Z0-9_-]{4,16}$")
 
         if (!nameRegex.matches(name)) {
@@ -24,13 +24,16 @@ class RegistrationRepositoryImpl(private val authorizationApi: AuthorizationApi,
             throw Throwable(message = MultiplatformResource.strings.joinErrorUsername.localize())
         }
 
-        authorizationApi.userRegisterApiV1UsersRegisterPost(
+        val token = authorizationApi.userRegisterApiV1UsersRegisterPost(
             RegisterIn(
                 phone = keyValueStorage.phoneNumber ?: "",
                 name = name,
                 username = username,
             )
         )
+
+        keyValueStorage.accessToken = token.accessToken
+        keyValueStorage.refreshToken = token.refreshToken
 
         return true
     }

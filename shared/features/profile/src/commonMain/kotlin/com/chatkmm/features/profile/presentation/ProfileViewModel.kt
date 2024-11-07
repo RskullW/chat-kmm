@@ -2,6 +2,7 @@ package com.chatkmm.features.profile.presentation
 
 import com.chatkmm.base.features.StateFlow
 import com.chatkmm.base.features.ViewModel
+import com.chatkmm.base.features.enum.Screen
 import com.chatkmm.base.features.enum.StateScreen
 import com.chatkmm.base.features.enum.Zodiac
 import com.chatkmm.data.model.CustomResponseException
@@ -34,6 +35,10 @@ class ProfileViewModel(
     val errorText: StateFlow<String?> = StateFlow(null)
     val isDeadToken: StateFlow<Boolean?> = StateFlow(null)
     val isSaved: StateFlow<Boolean> = StateFlow(false)
+    val newScreen: StateFlow<Screen?> = StateFlow(null)
+
+    var isClearScreen: Boolean = true
+        private set
 
     init {
         update()
@@ -98,11 +103,9 @@ class ProfileViewModel(
              }
         }
     }
-
     public fun updateErrorText(value: String? = null) {
         errorText.update(value = value)
     }
-
     public fun afterTextChangedName(newValue: String): String {
         setEnabledButton(name = newValue)
 
@@ -112,7 +115,6 @@ class ProfileViewModel(
             newValue
         }
     }
-
     public fun afterTextChangedCity(newValue: String): String {
         setEnabledButton(city = newValue)
 
@@ -122,7 +124,6 @@ class ProfileViewModel(
             newValue
         }
     }
-
     public fun afterTextChangedBirthday(newValue: String): String {
         val mask = "XX.XX.XXXX"
         val digits = newValue.filter { it.isDigit() }
@@ -151,19 +152,13 @@ class ProfileViewModel(
 
         return formattedDate.toString()
     }
-
     public fun afterTextChangedAboutMe(newValue: String): String {
         setEnabledButton(aboutMe = newValue)
 
         return newValue
     }
 
-    public fun save(
-        name: String?,
-        birthday: String?,
-        city: String?,
-        aboutMe: String?
-    ) {
+    public fun save(name: String?, birthday: String?, city: String?, aboutMe: String?) {
         if (stateScreen.getValue() == StateScreen.LOADING) {
             return
         }
@@ -206,14 +201,27 @@ class ProfileViewModel(
             }
         }
     }
-
-    public fun setImage(
-        fileName: String,
-        base64: String,
-    ) {
+    public fun setImage(fileName: String, base64: String, ) {
 
     }
 
+    public fun exitProfile() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = profileRepository.exitProfile()
+
+            if (result) {
+                withContextMain {
+                    updateScreen(screen = Screen.AUTHORIZATION, isClear = true)
+                }
+            }
+        }
+    }
+
+    public fun updateScreen(screen: Screen, isClear: Boolean) {
+        isClearScreen = isClear
+
+        newScreen.update(value = screen)
+    }
     private fun setEnabledButton(
         name: String? = null,
         birthday: String? = null,

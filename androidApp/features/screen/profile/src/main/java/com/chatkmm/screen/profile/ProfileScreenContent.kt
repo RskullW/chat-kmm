@@ -66,6 +66,7 @@ fun ProfileScreenContent(
     onAboutMeChange: (String) -> Unit,
     onSetImage: () -> Unit,
     onSave: () -> Unit,
+    onExit: () -> Unit,
     onSetScreen: (Screen?) -> Unit,
 ) {
     var bitmapItem by remember { mutableStateOf<Bitmap?>(null) }
@@ -100,7 +101,7 @@ fun ProfileScreenContent(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.Top,
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             ImageButton(
@@ -109,6 +110,15 @@ fun ProfileScreenContent(
                 iconId = MultiplatformResource.images.ic_back.drawableResId
             ) {
                 onSetScreen(null)
+            }
+
+            ImageButton(
+                size = 32,
+                modifierIcon = Modifier,
+                iconColor = B.colors().black,
+                iconId = MultiplatformResource.images.ic_exit.drawableResId
+            ) {
+                onExit()
             }
         }
 
@@ -266,6 +276,9 @@ internal fun ProfileScreenContent_Preview() {
             birthday = "21.11.2024",
             aboutMe = "",
             zodiac = Zodiac.PISCES,
+            onExit = {
+
+            },
             onSetImage = {
 
             },

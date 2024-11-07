@@ -37,4 +37,8 @@
 	<string name="save">Сохранить</string>
 	<string name="saved">Сохранено</string>
 	<string name="aboutMe">О себе</string>
+	<string name="profileExit_title">Выйти из профиля?</string>
+	<string name="profileExit_description">Если вы выйдете из профиля, то придется заново авторизоваться, чтобы продолжить общение.</string>
+	<string name="profileExit_confirm">Да, выйти</string>
+	<string name="profileExit_cancel">Нет, остаться</string>
 </resources>

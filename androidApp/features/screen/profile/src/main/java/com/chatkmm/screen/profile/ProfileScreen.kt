@@ -39,6 +39,7 @@ fun ProfileScreen() {
     var birthday by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("") }
     var aboutMe by remember { mutableStateOf("") }
+    var isDialogExit by remember { mutableStateOf(false) }
 
     val oldName by viewModel.oldName.state.collectAsState()
     val oldBirthday by viewModel.oldBirthday.state.collectAsState()
@@ -49,6 +50,7 @@ fun ProfileScreen() {
     val stateScreen by viewModel.stateScreen.state.collectAsState()
     val isDeadToken by viewModel.isDeadToken.state.collectAsState()
     val isSaved by viewModel.isSaved.state.collectAsState()
+    val newScreen by viewModel.newScreen.state.collectAsState()
 
     LaunchedEffect(oldName) {
         name = oldName ?: ""
@@ -64,16 +66,21 @@ fun ProfileScreen() {
     }
     LaunchedEffect(isDeadToken, isSaved) {
         if (isDeadToken == true) {
-            rootViewModel.updateScreen(
-                screen = Screen.AUTHORIZATION,
-                argumentsJson = emptyList(),
-                isClear = true
-            )
+            viewModel.updateScreen(screen = Screen.AUTHORIZATION, isClear = true)
         }
 
         if (isSaved) {
             Toast.makeText(context, MultiplatformResource.strings.saved.localize(), Toast.LENGTH_SHORT).show()
             viewModel.update(isLoading = false)
+        }
+    }
+    LaunchedEffect(newScreen) {
+        if (newScreen != null) {
+            rootViewModel.updateScreen(
+                screen = newScreen!!,
+                argumentsJson = emptyList(),
+                isClear = viewModel.isClearScreen
+            )
         }
     }
 
@@ -111,11 +118,17 @@ fun ProfileScreen() {
                     aboutMe = aboutMe
                 )
             },
+            onExit = {
+                isDialogExit = true
+            },
             onSetScreen = { newScreen ->
                 if (newScreen == null) {
                     rootViewModel.finishScreen()
                 } else {
-                    rootViewModel.updateScreen(newScreen, emptyList(), false)
+                    viewModel.updateScreen(
+                        screen = newScreen,
+                        isClear = true
+                    )
                 }
             }
         )
@@ -127,6 +140,21 @@ fun ProfileScreen() {
                 cancelText = MultiplatformResource.strings.close.localize()) {
                 viewModel.update()
             }
+        }
+
+        if (isDialogExit) {
+            MainDialog(
+                title = MultiplatformResource.strings.profileExit_title.localize(),
+                description = errorText ?: MultiplatformResource.strings.profileExit_description.localize(),
+                confirmText = MultiplatformResource.strings.profileExit_confirm.localize(),
+                confirmAction = {
+                    viewModel.exitProfile()
+                },
+                cancelText = MultiplatformResource.strings.profileExit_cancel.localize(),
+                cancelAction = {
+                    isDialogExit = false
+                },
+                )
         }
 
         if (stateScreen == StateScreen.LOADING) {

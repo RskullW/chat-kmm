@@ -5,6 +5,7 @@ import dev.icerock.moko.network.generated.models.GetCurrentUserProfile
 import dev.icerock.moko.network.generated.models.UserProfileSend
 
 interface ProfileRepository {
+    public suspend fun exitProfile(): Boolean
     public suspend fun getCurrentUser(): UserProfileSend
     public suspend fun getDateFormatted(birthday: String?): String?
     public suspend fun updateUser(

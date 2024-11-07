@@ -1,6 +1,7 @@
 package com.chatkmm.features.profile.data
 
 import com.chatkmm.base.features.enum.Zodiac
+import com.chatkmm.data.infrastructure.KeyValueStorage
 import com.chatkmm.data.utils.Log
 import com.chatkmm.features.profile.domain.ProfileRepository
 import dev.icerock.moko.network.generated.apis.UsersApi
@@ -9,7 +10,15 @@ import dev.icerock.moko.network.generated.models.UploadImage
 import dev.icerock.moko.network.generated.models.UserProfileSend
 import dev.icerock.moko.network.generated.models.UserUpdate
 
-class ProfileRepositoryImpl(private val usersApi: UsersApi): ProfileRepository {
+class ProfileRepositoryImpl(private val usersApi: UsersApi, private val keyValueStorage: KeyValueStorage): ProfileRepository {
+    override suspend fun exitProfile(): Boolean {
+        keyValueStorage.accessToken = null
+        keyValueStorage.refreshToken = null
+        keyValueStorage.phoneNumber = null
+
+        return true
+    }
+
     override suspend fun getCurrentUser(): UserProfileSend {
         return usersApi.getCurrentUserApiV1UsersMeGet().profileData
     }
