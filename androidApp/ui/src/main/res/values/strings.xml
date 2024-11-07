@@ -35,5 +35,6 @@
 	<string name="zodiac">Знак зодиака</string>
 	<string name="editPhoto">Изменение фотографии</string>
 	<string name="save">Сохранить</string>
+	<string name="saved">Сохранено</string>
 	<string name="aboutMe">О себе</string>
 </resources>

@@ -71,9 +71,7 @@ private fun createHttpClient(
         install(ExceptionPlugin) {
             exceptionFactory = HttpExceptionFactory(
                 defaultParser = CustomExceptionParser(json),
-                customParsers = mapOf(
-                    HttpStatusCode.UnprocessableEntity.value to ValidationExceptionParser(json)
-                )
+                customParsers = mapOf()
             )
         }
 

@@ -1,5 +1,6 @@
 package com.chatkmm.screen.profile
 
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.chatkmm.base.features.enum.Screen
 import com.chatkmm.base.features.enum.StateScreen
 import com.chatkmm.data.utils.localize
 import com.chatkmm.features.profile.presentation.ProfileViewModel
@@ -45,6 +47,8 @@ fun ProfileScreen() {
 
     val errorText by viewModel.errorText.state.collectAsState()
     val stateScreen by viewModel.stateScreen.state.collectAsState()
+    val isDeadToken by viewModel.isDeadToken.state.collectAsState()
+    val isSaved by viewModel.isSaved.state.collectAsState()
 
     LaunchedEffect(oldName) {
         name = oldName ?: ""
@@ -57,6 +61,20 @@ fun ProfileScreen() {
     }
     LaunchedEffect(oldAboutMe) {
         aboutMe = oldAboutMe ?: ""
+    }
+    LaunchedEffect(isDeadToken, isSaved) {
+        if (isDeadToken == true) {
+            rootViewModel.updateScreen(
+                screen = Screen.AUTHORIZATION,
+                argumentsJson = emptyList(),
+                isClear = true
+            )
+        }
+
+        if (isSaved) {
+            Toast.makeText(context, MultiplatformResource.strings.saved.localize(), Toast.LENGTH_SHORT).show()
+            viewModel.update(isLoading = false)
+        }
     }
 
     MainTheme {

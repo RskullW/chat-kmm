@@ -1,6 +1,7 @@
 package com.chatkmm.features.profile.data
 
 import com.chatkmm.base.features.enum.Zodiac
+import com.chatkmm.data.utils.Log
 import com.chatkmm.features.profile.domain.ProfileRepository
 import dev.icerock.moko.network.generated.apis.UsersApi
 import dev.icerock.moko.network.generated.models.GetCurrentUserProfile
@@ -14,7 +15,7 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi): ProfileRepository {
     }
 
     override suspend fun getDateFormatted(birthday: String?): String? {
-        val parts = birthday?.split(".")
+        val parts = birthday?.split("-")
 
         if (parts?.size != 3) {
             return null
@@ -36,9 +37,10 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi): ProfileRepository {
         image: String?,
     ) {
         val currentUser = getCurrentUser()
+        val birthdayFormatted = getDateFormattedDto(birthday)
 
         val name: String = if (name == currentUser.name) { currentUser.name } else { name ?: "" }
-        val birthday = if (birthday == currentUser.birthday) { null } else { birthday }
+        val birthday = if (birthdayFormatted == currentUser.birthday) { null } else { birthdayFormatted }
         val city = if (city == currentUser.city) { null } else { city }
         val aboutMe = if (aboutMe == currentUser.status) { null } else { aboutMe }
         val uploadImage = if (fileName != null && image != null) {
@@ -52,10 +54,15 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi): ProfileRepository {
         val userUpdate = UserUpdate(
             name = name,
             username = currentUser.username,
-            birthday = birthday,
+            birthday = birthdayFormatted,
             city = city,
             status = aboutMe,
             avatar = uploadImage
+        )
+
+        Log(
+            "UPDATEUSER",
+            userUpdate.toString()
         )
 
         usersApi.updateUserApiV1UsersMePut(userUpdate = userUpdate)
@@ -75,5 +82,19 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi): ProfileRepository {
             day = day,
             month = month
         )
+    }
+
+    private fun getDateFormattedDto(birthday: String?): String? {
+        val parts = birthday?.split(".")
+
+        if (parts?.size != 3) {
+            return null
+        }
+
+        val day = parts[0]
+        val month = parts[1]
+        val year = parts[2]
+
+        return "$year-$month-$day"
     }
 }

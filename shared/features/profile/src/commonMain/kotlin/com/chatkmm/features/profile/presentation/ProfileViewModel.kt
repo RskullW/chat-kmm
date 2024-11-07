@@ -5,6 +5,7 @@ import com.chatkmm.base.features.ViewModel
 import com.chatkmm.base.features.enum.StateScreen
 import com.chatkmm.base.features.enum.Zodiac
 import com.chatkmm.data.model.CustomResponseException
+import com.chatkmm.data.utils.Log
 import com.chatkmm.data.utils.localize
 import com.chatkmm.domain.constants.Constants
 import com.chatkmm.entity.DeadTokenException
@@ -32,12 +33,15 @@ class ProfileViewModel(
 
     val errorText: StateFlow<String?> = StateFlow(null)
     val isDeadToken: StateFlow<Boolean?> = StateFlow(null)
+    val isSaved: StateFlow<Boolean> = StateFlow(false)
 
     init {
         update()
     }
 
     public fun update(isLoading: Boolean = true) {
+        isSaved.update(false)
+        isEnabledButton.update(false)
         updateErrorText()
 
         if (isLoading && stateScreen.getValue() == StateScreen.LOADING) {
@@ -52,6 +56,7 @@ class ProfileViewModel(
              try {
                  val user = profileRepository.getCurrentUser()
                  val birthday: String? = user.birthday
+
                  val birthdayFormatted = profileRepository.getDateFormatted(birthday)
 
                  withContextMain {
@@ -119,14 +124,32 @@ class ProfileViewModel(
     }
 
     public fun afterTextChangedBirthday(newValue: String): String {
-        val regex = Regex("""\d{2}\.\d{2}\.\d{4}""")
-        setEnabledButton(birthday = newValue)
+        val mask = "XX.XX.XXXX"
+        val digits = newValue.filter { it.isDigit() }
+        val formattedDate = StringBuilder()
 
-        return if (!regex.matches(newValue)) {
-            newValue.dropLast(1)
-        } else {
-            newValue
+        var digitIndex = 0
+
+        if (mask.length < newValue.length) {
+            return newValue.substring(mask.length)
         }
+
+        for (char in mask) {
+            if (char == 'X') {
+                if (digitIndex < digits.length) {
+                    formattedDate.append(digits[digitIndex])
+                    digitIndex++
+                } else {
+                    break
+                }
+            } else {
+                formattedDate.append(char)
+            }
+        }
+
+        setEnabledButton(birthday = formattedDate.toString())
+
+        return formattedDate.toString()
     }
 
     public fun afterTextChangedAboutMe(newValue: String): String {
@@ -158,7 +181,7 @@ class ProfileViewModel(
                         fileName = null,
                         image = null
                     )
-                    update(isLoading = false)
+                    isSaved.update(true)
                 }
             } catch (e: DeadTokenException) {
                 e.printStackTrace()
