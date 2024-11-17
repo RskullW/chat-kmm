@@ -2,6 +2,7 @@ package com.chatkmm.features.profile.data
 
 import com.chatkmm.base.features.enum.Zodiac
 import com.chatkmm.data.infrastructure.KeyValueStorage
+import com.chatkmm.data.infrastructure.NativeHost
 import com.chatkmm.data.utils.Log
 import com.chatkmm.features.profile.domain.ProfileRepository
 import dev.icerock.moko.network.generated.apis.UsersApi
@@ -35,6 +36,14 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi, private val keyValue
         val day = parts[2]
 
         return "$day.$month.$year"
+    }
+
+    override suspend fun getAvatarUrl(): String? {
+        val user = getCurrentUser()
+        val avatars = user.avatars
+
+        val avatarMedia = avatars?.avatar ?: return null
+        return "${NativeHost.getUrl()}$avatarMedia"
     }
 
     override suspend fun updateUser(

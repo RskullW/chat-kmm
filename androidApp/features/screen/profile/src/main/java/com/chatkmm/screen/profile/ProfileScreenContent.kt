@@ -58,7 +58,7 @@ fun ProfileScreenContent(
     birthday: String,
     aboutMe: String,
     zodiac: Zodiac?,
-    profileImageUrl: String,
+    profileImageUrl: String?,
     phoneNumber: String,
     onNameChange: (String) -> Unit,
     onCityChange: (String) -> Unit,
@@ -78,7 +78,7 @@ fun ProfileScreenContent(
     )
 
     LaunchedEffect(profileImageUrl) {
-        if (profileImageUrl.isNotEmpty()) {
+        if (!profileImageUrl.isNullOrEmpty()) {
             val bitmap = withContext(Dispatchers.IO) {
                 Picasso.get().load(profileImageUrl)
                     .placeholder(MultiplatformResource.images.ic_avatar.drawableResId)

@@ -8,6 +8,7 @@ interface ProfileRepository {
     public suspend fun exitProfile(): Boolean
     public suspend fun getCurrentUser(): UserProfileSend
     public suspend fun getDateFormatted(birthday: String?): String?
+    public suspend fun getAvatarUrl(): String?
     public suspend fun updateUser(
         name: String? = null,
         birthday: String? = null,

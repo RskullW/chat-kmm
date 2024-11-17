@@ -31,6 +31,7 @@ class ProfileViewModel(
     val oldAboutMe: StateFlow<String?> = StateFlow(null)
     val oldProfileImage: StateFlow<String?> = StateFlow(null)
     val isEnabledButton: StateFlow<Boolean> = StateFlow(false)
+    val profileImageUrl: StateFlow<String?> = StateFlow(null)
 
     val errorText: StateFlow<String?> = StateFlow(null)
     val isDeadToken: StateFlow<Boolean?> = StateFlow(null)
@@ -61,7 +62,7 @@ class ProfileViewModel(
              try {
                  val user = profileRepository.getCurrentUser()
                  val birthday: String? = user.birthday
-
+                 val avatar = profileRepository.getAvatarUrl()
                  val birthdayFormatted = profileRepository.getDateFormatted(birthday)
 
                  withContextMain {
@@ -72,6 +73,7 @@ class ProfileViewModel(
                      oldProfileImage.update(user.avatar)
                      userName.update(user.username)
                      phoneNumber.update(user.phone)
+                     profileImageUrl.update(avatar)
 
                      if (birthdayFormatted != null) {
                          zodiac.update(profileRepository.getZodiacFromData(data = birthdayFormatted))

@@ -54,10 +54,11 @@ class MenuViewModel(private val menuRepository: MenuRepository): ViewModel() {
             try {
                 val chatsDto = menuRepository.getChats()
                 val user = menuRepository.getUser()
+                val avatarUrl = menuRepository.getAvatarUrl()
 
                 withContextMain {
                     chats.update(value = menuRepository.getChats())
-                    profileUrl.update(value = user.profileData.avatar)
+                    profileUrl.update(value = avatarUrl)
                     connectionStatus.update(value = MultiplatformResource.strings.chats.localize())
 
                     updateStateScreen(StateScreen.DEFAULT)

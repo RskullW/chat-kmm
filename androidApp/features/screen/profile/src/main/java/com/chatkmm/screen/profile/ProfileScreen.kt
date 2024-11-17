@@ -94,7 +94,7 @@ fun ProfileScreen() {
             phoneNumber = viewModel.phoneNumber.state.collectAsState().value,
             zodiac = viewModel.zodiac.state.collectAsState().value,
             isEnabledButton = viewModel.isEnabledButton.state.collectAsState().value,
-            profileImageUrl = "",
+            profileImageUrl = viewModel.profileImageUrl.state.collectAsState().value,
             onNameChange = { newValue ->
                 name = viewModel.afterTextChangedName(newValue = newValue)
             },

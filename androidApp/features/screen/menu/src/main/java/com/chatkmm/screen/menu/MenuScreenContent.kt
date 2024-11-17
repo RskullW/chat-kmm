@@ -105,11 +105,10 @@ fun MenuScreenContent(
             if (bitmapItem == null) {
                 Image(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(1000.dp))
+                        .background(B.colors().secondary.copy(0.3f), CircleShape)
                         .clickable {
                             onSetScreen(Screen.PROFILE)
                         }
-                        .background(B.colors().secondary.copy(0.3f))
                         .padding(4.dp)
                         .size(48.dp),
                     painter = painterResource(id = MultiplatformResource.images.ic_profile.drawableResId),
@@ -118,12 +117,10 @@ fun MenuScreenContent(
             } else {
                 Image(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(1000.dp))
+                        .clip(CircleShape)
                         .clickable {
                             onSetScreen(Screen.PROFILE)
                         }
-                        .background(B.colors().secondary.copy(0.3f), CircleShape)
-                        .padding(4.dp)
                         .size(48.dp),
                     bitmap = bitmapItem!!.asImageBitmap(),
                     contentDescription = "profile"

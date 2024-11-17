@@ -7,4 +7,5 @@ import dev.icerock.moko.network.generated.models.GetCurrentUserProfile
 interface MenuRepository {
     suspend fun getChats(): List<Chat> // TODO: Connect to Room DB / SQLDelight for KMM
     suspend fun getUser(): GetCurrentUserProfile
+    suspend fun getAvatarUrl(): String?
 }

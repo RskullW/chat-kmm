@@ -3,6 +3,8 @@ package com.chatkmm.features.menu.data
 import com.chatkmm.base.features.enum.StatusMessage
 import com.chatkmm.base.features.model.Chat
 import com.chatkmm.base.features.model.Message
+import com.chatkmm.data.infrastructure.NativeHost
+import com.chatkmm.data.model.ConfigParams
 import com.chatkmm.features.menu.domain.MenuRepository
 import dev.icerock.moko.network.generated.apis.UsersApi
 import dev.icerock.moko.network.generated.models.GetCurrentUserProfile
@@ -79,6 +81,14 @@ class MenuRepositoryImpl(private val usersApi: UsersApi): MenuRepository {
     override suspend fun getUser(): GetCurrentUserProfile {
         delay(2000)
         return usersApi.getCurrentUserApiV1UsersMeGet()
+    }
+
+    override suspend fun getAvatarUrl(): String? {
+        val user = getUser()
+        val avatars = user.profileData.avatars
+
+        val avatarMedia = avatars?.avatar ?: return null
+        return "${NativeHost.getUrl()}$avatarMedia"
     }
 
     private fun generateMessage(lastMessage: String): List<Message> {
