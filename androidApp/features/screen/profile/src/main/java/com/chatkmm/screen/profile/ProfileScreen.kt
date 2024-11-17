@@ -1,7 +1,11 @@
 package com.chatkmm.screen.profile
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +30,9 @@ import com.chatkmm.ui.LoadingContent
 import com.chatkmm.ui.MainDialog
 import com.chatkmm.ui.MainTheme
 import org.koin.java.KoinJavaComponent.getKoin
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.InputStream
 
 @Composable
 fun ProfileScreen() {
@@ -71,7 +78,7 @@ fun ProfileScreen() {
 
         if (isSaved) {
             Toast.makeText(context, MultiplatformResource.strings.saved.localize(), Toast.LENGTH_SHORT).show()
-            viewModel.update(isLoading = false)
+            viewModel.setSaved(value = false)
         }
     }
     LaunchedEffect(newScreen) {
@@ -83,6 +90,30 @@ fun ProfileScreen() {
             )
         }
     }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri ->
+            uri?.let {
+                val inputStream: InputStream? = context.contentResolver.openInputStream(it)
+                val fileDescriptor = context.contentResolver.openFileDescriptor(it, "r")?.fileDescriptor
+
+                if (inputStream != null && fileDescriptor != null) {
+                    try {
+                        val filename = File(uri.toString()).name
+
+                        val byteArrayOutputStream = ByteArrayOutputStream()
+                        inputStream.copyTo(byteArrayOutputStream)
+                        val byteArray = byteArrayOutputStream.toByteArray()
+                        val base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT)
+
+                        viewModel.setImage(filename, base64Image)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
+    )
 
     MainTheme {
         ProfileScreenContent(
@@ -107,8 +138,8 @@ fun ProfileScreen() {
             onAboutMeChange = { newValue ->
                 aboutMe = viewModel.afterTextChangedAboutMe(newValue = newValue)
             },
-            onSetImage = {
-
+            onOpenSelectorImage = {
+                launcher.launch("image/*")
             },
             onSave = {
                 viewModel.save(

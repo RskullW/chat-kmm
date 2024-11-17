@@ -14,8 +14,10 @@ interface ProfileRepository {
         birthday: String? = null,
         city: String? = null,
         aboutMe: String? = null,
+    )
+    public suspend fun updateImage(
         fileName: String?,
-        image: String?,
+        base64: String?
     )
 
     public fun getZodiacFromData(data: String): Zodiac?

@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.mokoMvvmLiveData)
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.activityCompose)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)

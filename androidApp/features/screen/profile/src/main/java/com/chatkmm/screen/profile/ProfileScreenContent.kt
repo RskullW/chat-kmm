@@ -64,9 +64,9 @@ fun ProfileScreenContent(
     onCityChange: (String) -> Unit,
     onBirthdayChange: (String) -> Unit,
     onAboutMeChange: (String) -> Unit,
-    onSetImage: () -> Unit,
     onSave: () -> Unit,
     onExit: () -> Unit,
+    onOpenSelectorImage: () -> Unit,
     onSetScreen: (Screen?) -> Unit,
 ) {
     var bitmapItem by remember { mutableStateOf<Bitmap?>(null) }
@@ -170,7 +170,7 @@ fun ProfileScreenContent(
                                 .padding(2.dp),
                             iconId = MultiplatformResource.images.ic_edit.drawableResId,
                             iconColor = B.colors().secondary,
-                            onClick = onSetImage
+                            onClick = onOpenSelectorImage
                         )
                     }
 
@@ -279,9 +279,6 @@ internal fun ProfileScreenContent_Preview() {
             onExit = {
 
             },
-            onSetImage = {
-
-            },
             onNameChange = {
                 isEnabled = true
             },
@@ -300,6 +297,9 @@ internal fun ProfileScreenContent_Preview() {
             onSetScreen = {
 
             },
+            onOpenSelectorImage = {
+
+            }
         )
     }
 }

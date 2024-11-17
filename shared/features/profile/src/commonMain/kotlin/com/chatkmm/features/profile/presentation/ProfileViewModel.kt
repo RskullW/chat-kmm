@@ -46,7 +46,6 @@ class ProfileViewModel(
     }
 
     public fun update(isLoading: Boolean = true) {
-        isSaved.update(false)
         isEnabledButton.update(false)
         updateErrorText()
 
@@ -175,10 +174,9 @@ class ProfileViewModel(
                         birthday = birthday,
                         city = city,
                         aboutMe = aboutMe,
-                        fileName = null,
-                        image = null
                     )
-                    isSaved.update(true)
+                    update(isLoading = false)
+                    setSaved(value = true)
                 }
             } catch (e: DeadTokenException) {
                 e.printStackTrace()
@@ -203,8 +201,46 @@ class ProfileViewModel(
             }
         }
     }
-    public fun setImage(fileName: String, base64: String, ) {
+    public fun setImage(fileName: String, base64: String) {
+        if (stateScreen.getValue() == StateScreen.LOADING) {
+            return
+        }
 
+        updateStateScreen(StateScreen.LOADING)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                withContextMain {
+                    profileRepository.updateImage(
+                        fileName = fileName,
+                        base64 = base64
+                    )
+
+                    update(isLoading = false)
+                    setSaved(value = true)
+                }
+            } catch (e: DeadTokenException) {
+                e.printStackTrace()
+
+                withContextMain {
+                    isDeadToken.update(true)
+                    updateStateScreen(StateScreen.DEFAULT)
+                }
+            } catch (e: ResponseException) {
+                e.printStackTrace()
+
+                withContextMain {
+                    errorText.update(e.responseMessage.ifEmpty { MultiplatformResource.strings.errorDescription.localize() })
+                    updateStateScreen(StateScreen.DEFAULT)
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                withContextMain {
+                    errorText.update(e.message?.ifEmpty { MultiplatformResource.strings.errorDescription.localize() })
+                    updateStateScreen(StateScreen.DEFAULT)
+                }
+            }
+        }
     }
 
     public fun exitProfile() {
@@ -223,6 +259,9 @@ class ProfileViewModel(
         isClearScreen = isClear
 
         newScreen.update(value = screen)
+    }
+    public fun setSaved(value: Boolean) {
+        isSaved.update(value)
     }
     private fun setEnabledButton(
         name: String? = null,

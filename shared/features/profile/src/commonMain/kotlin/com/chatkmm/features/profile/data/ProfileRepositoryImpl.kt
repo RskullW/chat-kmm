@@ -46,13 +46,32 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi, private val keyValue
         return "${NativeHost.getUrl()}$avatarMedia"
     }
 
+    override suspend fun updateImage(fileName: String?, base64: String?) {
+        val user = getCurrentUser()
+        val uploadImage = if (fileName != null && base64 != null) {
+            UploadImage(
+                filename = fileName,
+                base64 = base64
+            )
+        } else {
+            null
+        }
+
+        val userUpdate = UserUpdate(
+            name = user.name,
+            username = user.username,
+            avatar = uploadImage
+        )
+
+        usersApi.updateUserApiV1UsersMePut(userUpdate = userUpdate)
+
+    }
+
     override suspend fun updateUser(
         name: String?,
         birthday: String?,
         city: String?,
         aboutMe: String?,
-        fileName: String?,
-        image: String?,
     ) {
         val currentUser = getCurrentUser()
         val birthdayFormatted = getDateFormattedDto(birthday)
@@ -61,26 +80,13 @@ class ProfileRepositoryImpl(private val usersApi: UsersApi, private val keyValue
         val birthday = if (birthdayFormatted == currentUser.birthday) { null } else { birthdayFormatted }
         val city = if (city == currentUser.city) { null } else { city }
         val aboutMe = if (aboutMe == currentUser.status) { null } else { aboutMe }
-        val uploadImage = if (fileName != null && image != null) {
-            UploadImage(
-                filename = fileName,
-                base64 = image
-            )
-        } else {
-            null
-        }
+
         val userUpdate = UserUpdate(
             name = name,
             username = currentUser.username,
             birthday = birthdayFormatted,
             city = city,
             status = aboutMe,
-            avatar = uploadImage
-        )
-
-        Log(
-            "UPDATEUSER",
-            userUpdate.toString()
         )
 
         usersApi.updateUserApiV1UsersMePut(userUpdate = userUpdate)
